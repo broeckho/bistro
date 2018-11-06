@@ -19,7 +19,6 @@
 # Subdirectories.
 #============================================================================
 add_subdirectory(gengeopop)
-add_subdirectory(calibration)
 add_subdirectory(mapviewer)
 add_subdirectory(guicontroller)
 add_subdirectory(guilauncher)

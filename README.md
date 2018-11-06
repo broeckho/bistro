@@ -1,12 +1,8 @@
 # Stride project 
 
-|CodeFactor|Travis|Clang 5|GCC 6| GCC 7|
-|--|--|--|--|--|
-|[![CodeFactor](https://www.codefactor.io/repository/github/ledfan/bachelorproef/badge)](https://www.codefactor.io/repository/github/ledfan/bachelorproef)|[![Build Status](https://travis-ci.com/LEDfan/Bachelorproef.svg?token=csyiPstpMdAYGLr6wqxd&branch=master)](https://travis-ci.com/LEDfan/Bachelorproef)|[![Build Status](https://ci.ledfan.be/buildStatus/icon?job=BachelorProef/Tests-compile-docker-clang-5)](https://ci.ledfan.be/job/BachelorProef/job/Tests-compile-docker-clang-5/)|[![Build Status](https://ci.ledfan.be/buildStatus/icon?job=BachelorProef/Tests-compile-docker-gcc-6)](https://ci.ledfan.be/job/BachelorProef/job/Tests-compile-docker-gcc-6/)|[![Build Status](https://ci.ledfan.be/buildStatus/icon?job=BachelorProef/Tests-compile-docker-gcc-7)](https://ci.ledfan.be/job/BachelorProef/job/Tests-compile-docker-gcc-7/)|
 
-Stride is an Open Source project to simulate transmission of infectious diseases.
 
-The Stride acronym stands for **S**imulate **tr**ansmission of **i**nfectious **d**is**e**ases.
+Stride is an Open Source project and its acronym stands for **S**imulate **tr**ansmission of **i**nfectious **d**is**e**ases.
  
 The project is hosted in a GitHub [code repository](https://github.com/broeckho/stride.git) and has a continous integration  
  cycle [build & test](https://travis-ci.org/broeckho/stride) at Travis CI. The online [reference documentation](https://broeckho.github.io/stride) is automatically  
@@ -14,30 +10,44 @@ The project is hosted in a GitHub [code repository](https://github.com/broeckho/
 
 The current status of the project build is : [![Build Status](https://travis-ci.org/broeckho/stride.svg?branch=master)](https://travis-ci.org/broeckho/stride)
 
-The current release is Stride V1, 18.06.
-
 Information on layout, installation, dependencies of the project, and platforms that  
 are supported, can be found in the files INSTALL.txt, DEPENDENCIES.txt and  
 PLATFORMS.txt respectively.
-For license info, see LICENSE.txt.  
+For license info, see LICENSE.txt. 
+
+A breakdown of project artefacts (excluding third-party material) generated with the  
+cloc tool on 12/05/2018:
+
+Language|files|blank|comment|code
+:-------|-------:|-------:|-------:|-------:
+C++|60|777|1463|3713
+C/C++ Header|88|950|2450|2552
+Python|26|266|388|847
+R|6|322|353|729
+CMake|20|103|602|572
+YAML|2|17|22|126
+Markdown|5|36|0|99
+make|1|20|39|99
+Bourne Again Shell|2|17|40|92
+SWIG|5|19|12|65
+XML|2|4|0|56
+Bourne Shell|3|23|65|54
+XSLT|1|8|0|36
+--------|--------|--------|--------|--------
+SUM:|221|2562|5434|9040 
 
 Current contributors are (in alphabetical order):
 
-* Niels Aerens ([@PurgingPanda](https://github.com/PurgingPanda))
-* Thomas Avé  ([@thomasave](http://github.com/thomasave))
-* Tobia De Koninck ([@LEDfan](https://github.com/LEDfan))
-* Robin Jadoul ([@RobinJadoul](https://github.com/RobinJadoul))
-
-Contact Person:
-
-* Name: Tobia De Koninck
-* Github: ([@LEDfan](https://github.com/LEDfan))
-* E-Mail: tobia.dekoninck@student.uantwerpen.be
-
-Upstream:
 * Jan Broeckhove (jan.broeckhove@uantwerpen.be)
 * Elise Kuylen (elise.kuylen@uantwerpen.be)
 * Lander Willem (lander.willem@uantwerpen.be)
+
+and contributing students
+
+* Niels Aerens 
+* Thomas Avé  
+* Tobia De Koninck 
+* Robin Jadoul 
 
 ## GenGeo
 The GenGeo can be tested by compiling Stride and then running the `./cmake-build-release/installed/bin/gengeopop` program.
@@ -53,9 +63,6 @@ The GeoGrid will be written into `gengeopop.json`, which can be opened using the
 The MapViewer is compiled with the other binaries. It can run by `./cmake-build-release/installed/bin/mapviewer`. You then have to load a geogrid file by clicking the load file button on the right hand side. The map on the left hand side shows all the locations in the geogrid. You can get more info by clicking on a marker. The middle column will then have the info about the location and the contact centers. You can click on one of the contact centers in that list, you will then get info about it in the right column.
 You can select multiple locations by using SHIFT.
 
-## Calibration tool
-The calibration tool can be run by `./cmake-build-release/installed/bin/calibration`.
-This will first compute the exact values for the scenario tests, then compute the mean and standard deviation for each testcase by running it multiple times using different seeds, and finally show a boxplot of the results using QtCharts.
 
 ## Integration
 

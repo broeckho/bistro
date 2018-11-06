@@ -4,7 +4,6 @@ dist: trusty
 env:
   global:
     #- MAKEFLAGS="-j 2"
-    - secure: GleA4sdouIha5p6DQJ0YNPXWORcDWLAyDqFhYFV1OXSfzR1KublRtuH4MCPsYkgxujas2uqRU4bM0RGuws5JMAFTsVKpQv8hZZAhzZu6tdHY3d5adC19hu5AKKkd96wOCZbU8D/FxUpVkqALQ1wAQpxa2KFlqsPT9Wk9Uqt+xEZ4Wp1aBa8eo8E9Llra1KPAQq8S3ljTs4VH2j9ID1xW/VQfXILcFtw2pvpmtdxrGYPOaJwxxvq66Tfc/yFX3BEhtzdykJBrI7COzrE59VZVGOi/Pteb5a6V/TOw7bFUkov6siB16/IIOSpVN9fGcnNPzD5Ll7dlz2yIlIK/HgRRb6GpsppGnZzVUyNBieDI4oV0qUL3zBWo3a0Y5k9mcR8KwOuaHsuaW0816mFuFiPf8Jkrnf+ruYsJKWZ+F4XqXyuDbiwBLNcmCVNk0T9IE0DrZdrG59SKvthmdGhQE2w1MPsRe7dQcaT7/1/YRL2C0kJN3NMcSFjXN53nDWx5q/TMA6YlQtTxRVO1Pl4ldKHbFO8ZJl0YHzkY0DAfYUmnLxEUwLe2LrMFemh9U2bWBg3zUif1We1pmhjHldrEi1drEkfTjBNHESN9CR7GG5mT8L1px+RrIumxr1XjaK/59twiFYqsFqk4widskpSkYKRZGpR9N8gl56ieyV61Ual2mPg=
 
 cache:
   directories:
@@ -67,15 +66,28 @@ before_install:
     fi
 
 install:
-    #--------- Linux
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-        wget -O swig.deb https://c.ledfan.be/s/eXQ5LW4yTxTYwja/download;
-        sudo dpkg -i swig.deb;
-        sudo apt-get -y remove qtchooser;
-        wget -O qt.deb https://c.ledfan.be/s/ZJDRPiFrrtWHC3F/download;
-        sudo dpkg -i qt.deb;
+#--------- Linux
+- |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    SWIGHOME=$HOME/deps/swig_3.0.12
+    if [[ -z "$(ls -A $SWIGHOME)" ]]; then
+      cd /tmp/;
+      curl -s -J -O -k -L 'https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download'
+      tar xf swig-3.0.12.tar.gz > /dev/null 2>&1
+      cd swig-3.0.12 && ./configure --prefix $SWIGHOME
+      make && make install
+      cd $TRAVIS_BUILD_DIR
+    else
+      echo "Already have swig cache"
     fi
+    export CMAKE_PREFIX_PATH=$SWIGHOME:$CMAKE_PREFIX_PATH
+    #--------- Linux - qt 5.10.1 from Stephan Beiner's ppa
+    sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y && sudo apt-get update -qq
+    sudo apt-get install -qq qt510base qt510charts-no-lgpl && source /opt/qt510/bin/qt510-env.sh
+    sudo ldconfig /opt/qt510/lib
+    export CMAKE_PREFIX_PATH=/opt/qt510/:$CMAKE_PREFIX_PATH
+    export LD_LIBRARY_PATH=/opt/qt510/lib/
+  fi
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -104,4 +116,4 @@ script:
       fi
       CMAKE_BUILD_TYPE=Debug make all
 
-  - CMAKE_BUILD_TYPE=Debug make test
+  # - CMAKE_BUILD_TYPE=Debug make test

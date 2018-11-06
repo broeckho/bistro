@@ -220,17 +220,6 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
-# Qt Charts
-#----------------------------------------------------------------------------
-find_package(Qt5Charts)
-if(Qt5Charts_FOUND)
-    add_definitions(-DQt5Charts_FOUND=true)
-    set(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5Charts_LIBRARIES})
-else()
-    add_definitions(-DQt5Charts_FOUND=false)
-endif()
-
-#----------------------------------------------------------------------------
 # HDF5 Library
 # Try to find the C variant of libhdf5, if found, USE_HDF5 is defined
 # and passed to the compilers to allow compilation of selective features
