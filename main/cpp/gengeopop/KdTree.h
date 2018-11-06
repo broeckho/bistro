@@ -256,9 +256,10 @@ private:
 
                 std::size_t med        = kd::Median<P, D>(points);
                 auto        median_val = points[med].template Get<D>();
-                P           root_pt;
+                P           root_pt = P();
 
-                std::vector<P> left, right;
+                std::vector<P> left;
+                std::vector<P> right;
                 for (std::size_t i = 0; i < points.size(); i++) {
                         const auto& p = points[i];
                         if (i == med) {

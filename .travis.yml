@@ -24,7 +24,7 @@ matrix:
 
     - os: linux
       compiler: gcc
-      env: CXX_COMPILER_NAME='g++-6' CXX_COMPILER_ID=GNU STRIDE_GENERATE_COVERAGE=True BUILD_NAME="linux-gcc-6" COMMIT_DOCS=YES
+      env: CXX_COMPILER_NAME='g++-6' CXX_COMPILER_ID=GNU BUILD_NAME="linux-gcc-6"
       addons: { apt: { packages: [*default_packages, g++-6, lcov, doxygen, graphviz], sources: [*default_sources]} }
 
     - os: linux
