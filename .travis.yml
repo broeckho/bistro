@@ -23,28 +23,18 @@ matrix:
 
     - os: linux
       compiler: gcc
-      env: CXX_COMPILER_NAME='g++-6' CXX_COMPILER_ID=GNU BUILD_NAME="linux-gcc-6"
+      env: CXX_COMPILER_NAME='g++-6'
       addons: { apt: { packages: [*default_packages, g++-6, lcov, doxygen, graphviz], sources: [*default_sources]} }
 
     - os: linux
       compiler: gcc
-      env: CXX_COMPILER_NAME='g++-7' CXX_COMPILER_ID=GNU BUILD_NAME="linux-gcc-7"
+      env: CXX_COMPILER_NAME='g++-7'
       addons: { apt: { packages: [*default_packages, g++-7], sources: [*default_sources]} }
 
     - os: linux
       compiler: clang
-      env: CXX_COMPILER_NAME='clang++-5.0' CXX_COMPILER_ID=CLANG BUILD_NAME="linux-clang-5"
+      env: CXX_COMPILER_NAME='clang++-5.0'
       addons: { apt: { packages: [*default_packages, clang-5.0, g++-6, gcc-6], sources:  [*default_sources, llvm-toolchain-trusty-5.0] } }
-
-    - os: osx
-      osx_image: xcode8.3
-      compiler: clang
-      env: CXX_NAME='clang++'
-
-    - os: osx
-      osx_image: xcode9.2
-      compiler: clang
-      env: CXX_NAME='clang++'
 
     - os: osx
       osx_image: xcode9.3
@@ -66,8 +56,8 @@ before_install:
     fi
 
 install:
-#--------- Linux
-- |
+  #--------- Linux
+  - |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     SWIGHOME=$HOME/deps/swig_3.0.12
     if [[ -z "$(ls -A $SWIGHOME)" ]]; then
@@ -88,7 +78,7 @@ install:
     export CMAKE_PREFIX_PATH=/opt/qt510/:$CMAKE_PREFIX_PATH
     export LD_LIBRARY_PATH=/opt/qt510/lib/
   fi
-    #--------- OSX
+  #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew upgrade python cmake
@@ -98,10 +88,10 @@ install:
       export CMAKE_PREFIX_PATH=/usr/local/opt/qt5:$CMAKE_PREFIX_PATH
       export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
     fi
-    #--------- All platforms
-  - |
-    sudo pip install cmake
-    export PATH=/usr/local/bin:$PATH # use version installed using pip
+  #--------- All platforms
+  # - |
+      sudo pip install cmake
+      export PATH=/usr/local/bin:$PATH # use version installed using pip
 
 script:
     # Output every 9m so the build doesn't get killed

@@ -38,6 +38,9 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
     #set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+#set(CMAKE_CXX_FLAGS “—Weffc++ Wextra -pedantic")
+#set(CMAKE_CXX_FLAGS "-UNDEBUG")
+
 #============================================================================
 # To help find modules.
 #============================================================================
@@ -54,8 +57,9 @@ execute_process(COMMAND git rev-list HEAD --count
         OUTPUT_VARIABLE STRIDE_GIT_LABEL OUTPUT_STRIP_TRAILING_WHITESPACE)
 set(CMAKE_INSTALL_PREFIX  $ENV{HOME}/opt/stride-${STRIDE_GIT_LABEL})
 
+
 #============================================================================
-# Compiler & Boost.
+# Compiler.
 #============================================================================
 if(LINUX)
     if(STRIDE_COMPILER_ID STREQUAL "GNU")
@@ -81,7 +85,7 @@ if(APPLE)
 endif()
 
 #============================================================================
-# Compiler & Boost.
+# Boost.
 #============================================================================
 if(LINUX)
     set(STRIDE_BOOST_ROOT "/opt/boost/gcc/boost_1_66_0/")
@@ -97,6 +101,5 @@ if(APPLE)
         set(BOOST_NO_SYSTEM_PATHS ON)
     endif()
 endif()
-
 
 #############################################################################

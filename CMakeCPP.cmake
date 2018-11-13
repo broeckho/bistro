@@ -43,7 +43,7 @@ set(CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -DPROCCOUNT=${PROCCOUNT}")
 # Required to avoid ld problems on Mac
 set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 #
-set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++17 -pthread -Wall -Wextra -pedantic -Weffc++")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++17 -lstdc++fs -pthread -Wall -Wextra -pedantic -Weffc++")
 set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast" )
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} -O0"   )
@@ -84,6 +84,7 @@ if(CMAKE_HOST_APPLE)
     SET(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
     SET(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
 endif()
+
 #----------------------------------------------------------------------------
 # Standard math lib
 #----------------------------------------------------------------------------
@@ -99,7 +100,6 @@ set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT})
 #============================================================================
 # Enable AUTOMOC/AUTORCC/AUTOUIC for preprocessing Qt related files
 #============================================================================
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -180,7 +180,12 @@ endif()
 #----------------------------------------------------------------------------
 # Qt : not a definitive list of components yet; these are placeholders
 #----------------------------------------------------------------------------
-find_package(Qt5 COMPONENTS Core Gui PrintSupport Widgets Qml Quick QUIET)
+if(NOT STRIDE_FORCE_NO_QT5)
+    find_package(Qt5 COMPONENTS Core Gui PrintSupport Widgets Qml Quick QUIET)
+else()
+    set(Qt5_FOUND FALSE)
+endif()
+
 if (Qt5_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DQt5_FOUND=true")
     set(QT_INCLUDES
