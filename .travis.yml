@@ -23,18 +23,23 @@ matrix:
 
     - os: linux
       compiler: gcc
-      env: CXX_COMPILER_NAME='g++-6'
-      addons: { apt: { packages: [*default_packages, g++-6, lcov, doxygen, graphviz], sources: [*default_sources]} }
+      env: CXX_NAME='g++-6'
+      addons: { apt: { packages: [*default_packages, g++-6, doxygen, graphviz], sources: [*default_sources]} }
 
     - os: linux
       compiler: gcc
-      env: CXX_COMPILER_NAME='g++-7'
+      env: CXX_NAME='g++-7'
       addons: { apt: { packages: [*default_packages, g++-7], sources: [*default_sources]} }
 
     - os: linux
+      compiler: gcc
+      env: CXX_NAME='g++-8'
+      addons: { apt: { packages: [*default_packages, g++-8], sources: [*default_sources]} }
+
+    - os: linux
       compiler: clang
-      env: CXX_COMPILER_NAME='clang++-5.0'
-      addons: { apt: { packages: [*default_packages, clang-5.0, g++-6, gcc-6], sources:  [*default_sources, llvm-toolchain-trusty-5.0] } }
+      env: CXX_NAME='clang++-6.0'
+      addons: { apt: { packages: [*default_packages, clang-6.0], sources:  [*default_sources, llvm-toolchain-trusty-6.0] } }
 
     - os: osx
       osx_image: xcode9.3
@@ -48,11 +53,11 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_NAME" == "clang++" ]]; then
         brew install llvm
         brew link --force --overwrite llvm
-        export CC=/usr/local/opt/llvm/bin/clang
-        export CXX=/usr/local/opt/llvm/bin/clang++
+        export CC=/usr/local/opt/llvm@6/bin/clang
+        export CXX=/usr/local/opt/llvm@6/bin/clang++
     else
       # This is required to override Travis's definitions of CC and CXX that lead to old Ubuntu-packaged compilers
-      export CXX="$CXX_COMPILER_NAME"
+      export CXX="$CXX_NAME"
     fi
 
 install:
@@ -90,8 +95,8 @@ install:
     fi
   #--------- All platforms
   - |
-      sudo pip install cmake
-      export PATH=/usr/local/bin:$PATH # use version installed using pip
+    sudo pip install cmake
+    export PATH=/usr/local/bin:$PATH # use version installed using pip
 
 script:
     # Output every 9m so the build doesn't get killed
@@ -101,9 +106,8 @@ script:
   #         CMAKE_BUILD_TYPE: enable assertions
   #         STRIDE_GENERATE_COVERAGE: enable coverage -- set in `matrix`
   - |
-      if [ "$TRAVIS_BRANCH" = "master" -a "$COMMIT_DOCS" = "YES" ]; then
-        export STRIDE_INCLUDE_DOC=YES
-      fi
-      CMAKE_BUILD_TYPE=Debug make all
-
+    if [ "$TRAVIS_BRANCH" = "master" -a "$COMMIT_DOCS" = "YES" ]; then
+      export STRIDE_INCLUDE_DOC=YES
+    fi
+    CMAKE_BUILD_TYPE=Debug make all
   # - CMAKE_BUILD_TYPE=Debug make test
