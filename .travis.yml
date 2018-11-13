@@ -89,7 +89,7 @@ install:
       export LD_LIBRARY_PATH=/usr/local/opt/qt5/lib/
     fi
   #--------- All platforms
-  # - |
+  - |
       sudo pip install cmake
       export PATH=/usr/local/bin:$PATH # use version installed using pip
 
